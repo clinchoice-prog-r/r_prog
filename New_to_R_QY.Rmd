@@ -1,0 +1,260 @@
+---
+title: "Introduction To R"
+output:
+  html_document:
+    df_print: paged
+  learnr::tutorial:
+    progressive: yes
+    allow_skip: yes
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+# Before running this document, the following packages need to be installed
+#install.packages("learnr")
+#install.packages("ggplot2")
+#install.packages("tidyverse")
+
+library(learnr)
+library(ggplot2)
+library(tidyverse)
+knitr::opts_chunk$set(echo = FALSE)
+```
+## Chapter 1: What is R?
+
+R is a programming language for statistical computing and graphics created by statisticians Ross Ihaka and Robert Gentleman in 1992. (They names both started with an R)
+
+![](C:/R-4.1.3/working_directory/R_NET.PNG)
+
+### Things to know about the R programming language
+
+- Free and open source software (FOSS)
+- Cross-platform, can be installed and used on Windows, Mac and Linux operating systems.  Installation files can be found on [The Comprehensive R Archive Network](https://cran.r-project.org/) (CRAN)
+- Case sensitive
+- New versions of the R programming language are released frequently (every six months or so)
+- Primary reference site is [The R Project for Statistical Computing](https://www.r-project.org/)
+
+### How can I work with R?
+
+- Command line
+- The primary integrated development environment (IDE) for working with R is [RStudio](https://rstudio.com/products/rstudio/) (which you already know because you are using it right now!).  ***This is how most users choose to work with R.***
+
+### Extending the Functionality of R
+
+- Tools and functions that come with the basic installation of R are called "base R."  A few examples of actions you can perform using base R include:
+    - reading from and writing to files (e.g. txt, csv)
+    - changing the data type of an object
+    - math functions (e.g. exponents, rounding, mean, median, natual log)
+    - statistical functions (e.g. t-test, linear model)
+    - basic visualization (e.g. histograms, scatter plots)
+    - combining rows and columns when working with tabular data
+- Additional functionality can be included in your scripts by installing third-party packages.  There are thousands of packages developed by people in the R community.  A complete list can be found on the [CRAN package page](https://cran.r-project.org/web/packages/available_packages_by_name.html).
+
+### Installing Packages 
+
+The first step is to install the package on your machine.  This only needs to be done one time.  After installation, the package can be reused in any R script.
+
+Packages can be installed in the script window or the console using the syntax `install.packages("name-of-the-package-in-quotes")`
+
+For example, installing the tidyverse and ggplot2 packages would look like:
+
+`install.packages("tidyverse")`
+
+`install.packages("ggplot2")`
+
+Packages can also be installed from the Packages tab in RStudio.  Watch this short video for a demonstration on both methods of installing packages
+
+![](https://youtu.be/u1r5XTqrCTQ)
+
+### Importing Packages 
+
+The next step is to import the packages into a script in order to take advantage of the additional functionality.
+
+Packages are imported into R scripts using the syntax `library(name-of-package-not-in-quotes)`
+
+For example, if we want to use the tidyverse and ggplot2 packages in our script, the import process would look like:
+
+```{r install-import, exercise=TRUE}
+# Import the packages into your script
+# NOTE - when importing, the package name DOES NOT need to be surrounded with quotation marks
+library(tidyverse)
+library(ggplot2)
+```
+
+Now that we are familiar with R and R Studio, let's begin our look at the basics of R syntax.
+
+## Chapter 2: Getting Acquainted with R Syntax
+
+### Learning goals
+- Learners will be able to create variables in R to represent values or objects
+- Learners will be able to add comments to their code
+- Learners will be able to get and set the working directory to a location on their machine
+- Learners will be able to recognize the different data types and data structures
+
+### Variables
+
+* A variable is a container to hold a value, data or other object
+* To create a variable, assign a name and value using an ***assignment statement***
+
+In R, there are two way to set up an assignment statement:
+
+* an equals sign (=)
+* a combination of less than sign (<) and a hyphen (-), looks like an arrow pointing to the left (<-)
+
+In many programming languages, the assignment statement uses the equals sign.
+
+***In R, the "<-" sign is the norm when assigning variables***
+
+Click the Run Code button to execute the code in the code block below.
+
+```{r variables, exercise=TRUE}
+# Using the equals sign
+x = 522
+# Using the combination of a less than sign "<" and a hyphen "-"
+y <- 43
+# Show the value of x in the console
+x
+# Show the value of y in the console
+y
+```
+
+#### Practice
+* Refresh the above code block by clicking the Start Over button.
+* Change the values for x and y to different numbers
+* Run the code to see the changes to x and y reflected in the output
+
+#### Choosing Names For Your Variables
+
+The names you select for your variables should be concise, but should also remind you (and anyone else viewing your code) what the variable is representing.  
+
+A few other tips regarding selecting variable names:
+
+***Variable names cannot begin with a digit***
+```{r digit-variables, exercise=TRUE}
+# This will throw an error, variables cannot begin with digits
+6 <- 43
+```
+
+***Variable names cannot be reserved words (keywords). These words have special meaning in R.*** 
+
+To view a list of the reserved words, run the `? reserved` command
+```{r reserved-variables, exercise=TRUE}
+# View the list of reserved keywords
+? reserved
+```
+
+***Keep the names short***
+
+***Use descriptive names (e.g. "count" instead of "c")***
+
+***Choose a naming convension and stick to it (all lower case, words separated by underscore, avoid using underscore as first character)***
+
+```{r naming-variables, exercise=TRUE}
+# Some examples of creating variables
+greeting <- "hello world"
+attendance <- 45
+addition <- 2+2
+# Show the values of the above variables in the console
+greeting
+attendance
+addition
+```
+
+#### Practice
+* Refresh the above code block by clicking the Start Over button.
+* Change the values for the variables above
+* Run the code to see the changes to the variables reflected in the output
+
+### Commenting
+
+Commenting helps you remember what lines of code do or explains your logic to others.  It can also be useful if you want to skip lines of code (to avoid throwing an error, for example).  Comments are designated with the hashtag or pound symbol `#`
+
+```{r comments, exercise=TRUE}
+# This is a comment, it will not be read in R
+greeting <- "hello world" # Comments can also appear on the same line as code
+# Show the value of greeting in the console
+greeting
+```
+
+### Working Directory
+
+When writing code, we often need to reference files on our computer, either as inputs or outputs.  We need to be able to tell R where to "look" for these files.  Setting the working directory defines a location on our computer (a folder usually) where our files are kept.  We can use the working directory as a reference to direct R to other locations (e.g. sub-directories).
+
+Note: The location of your working directory is going to be different for each machine.  The path will be delimited with forward slashes `/Users/labuser` or `C:/Users/LabUser` 
+
+```{r wd, exercise=TRUE}
+# Location of my files for this project
+path <- "/Users/labuser"
+# Display the location of the current working directory in the console
+getwd()
+# Set the working directory to a new location (using the variable "path")
+setwd(path)
+# Check the working directory again, after it has been set using the "setwd()" function
+getwd()
+```
+
+#### Practice
+* Change the value for the "path" variable to location on your machine.
+* Run the code to change the working directory
+
+
+
+## Chapter 5: Where To Get Help?
+
+### Getting Help Within RStudio
+
+To get help on any item (e.g. function, variable type, package), add a '?' in front of the item and hit Run
+
+```{r help, exercise=TRUE}
+# Help examples
+?file.create
+?ggplot2
+?as.numeric
+```
+
+### Online resources
+
+The materials that we used in this course were from [Data Science in a Box](https://datasciencebox.org/) and [R-Bootcamp](r-bootcamp.netlify.app). Here are a listing of useful online resources that will help you along your data science journey.
+
+- [R for Data Science](https://r4ds.had.co.nz/): This book is the quintessential text in learning data science applications using R. This book is also available in print version as well.
+
+- [R Studio Primers](https://rstudio.cloud/learn/primers) R studio has a series of interactive tutorials which introduces essential data science concepts. 
+
+- [Tidymodels Tutorials](https://www.tidymodels.org/start/): These tutorials created by R-Studio Education gets you started with using tidymodels in performing statistical analysis, creating robust models, tuning models, and developing custom models. It is highly recommended that you are more familiar with R before dong these tutorials.
+
+- [LinkedIn Learning Tutorials](www.linkedin.com/learning): If you have a LinkedIn learning account, there are a wealth tutorials at your disposal in which you can build upon your R skills. If you are overwhelmed with the amount of videos that are on LinkedIn platform, you can click on the Learning Path option on the filtering toolbar on the left-hand side to see a listing of the learning paths. 
+
+- [R Studio Cheatsheets](https://rstudio.com/resources/cheatsheets/): R Studio has cheat sheets for various packages in which you can quickly look up information on how to use the functions in a given package. 
+
+### Print resources
+Here are some book recommendations for using R.
+
+- [An Introduction to Statistical Learning with Applications in R](http://faculty.marshall.usc.edu/gareth-james/ISL/): This book gives an overview of statistical learning in R and presents modeling and prediction techniques.
+
+- [Discovering Statistics Using R](https://www.discoveringstatistics.com/books/discovering-statistics-using-r/): This book teaches R in a fun and accessible way through story telling and illustrations. 
+
+- [Statistics With R: Solving Problems Using Real-World Data](https://us.sagepub.com/en-us/nam/statistics-with-r/book253567): As the title of this book alludes to, this book uses real-world examples for the reader to utilize in learning R.
+
+- [Data Science in Education Using R](https://www.routledge.com/Data-Science-in-Education-Using-R/Estrellado-Freer-Mostipak-Rosenberg-Velasquez/p/book/9780367422257): This book provides several walkthroughs in which you "learn by doing" in learning the foundations of R. While originally designed for educators in mind, this book can be applicable to other social science fields as well. There is also an [online version](https://datascienceineducation.com/) of this book.
+
+- [R for Excel Users](https://www.rforexcelusers.com/book/): This book is targeted for beginners in R who are familiar with Excel.
+
+### Communities
+You don't have to embark on your data science journey alone; there are a variety of R users groups that can help you along your journey! Being a part of an R users group is a great way to meet other R users in your field, learn something new, and to build your professional network.
+
+- [St. Louis R User Group](https://www.meetup.com/Saint-Louis-RUG/): The St. Louis R Users group are made up of R users from diverse fields and diverse levels of R proficiencies. The St. Louis R users group have regular meetings on using R for data analysis, statistical programming, and data visualization. 
+
+- [R for Data Science Online Learning Community](https://www.rfordatasci.com/): The R for Data Science(R4DS) online learning community supports your learning of R mainly based off the R for Data Science text through weekly study groups, weekly events, and support through the R4DS channel. 
+
+- [R-Ladies](https://rladies.org/): The purpose of R-Ladies is to promote gender diversity in the R community through regular meetings and providing support for gender minority users of R in various ways such as conference participation, continuing education, and R package development. The local chapter of R-Ladies holds monthly meetings on various R topics such as data visualization, data analysis, and app development. There is an [R-Ladies St. Louis](https://www.meetup.com/rladies-st-louis/) chapter which meets monthly.
+
+
+- [Minorities in R](mircommunity.com): The purpose of Minorities in R (MiR) is to To promote the visibility and leadership of R users from marginalized races, genders, and the disabled community through community-led efforts that support professional development. MiR hold regular webinars on how to use R for a variety of tasks along with having a Slack channel in which members can share  opportunities and resources. 
+
+- [Kaggle Communities](https://www.kaggle.com/discussion): Kaggle, an online community of data scientists and machine learning practitioners have various sub-communities focused on various aspects of data science such as data visualization, the tidyverse, and also has a community for beginners in data science.
+
+### You made it! Thank you for working through these introduction to R materials.
+
+![](https://media.giphy.com/media/CW27AW0nlp5u0/giphy.gif)
+
+
